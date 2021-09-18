@@ -11,11 +11,11 @@
 #define SAVE 1
 
 /**FRONTEND**/
-//scrivo il file di testo con le istruzioni
-void generaistruzioni();
-//formattazione stringa per lettura nelle funzioni load and save
+//instruction file generation
+void writeInstruction();
+//strings formatting for path reading in load and save functions
 void str_formatting(char []);
-//menu per la selezione delle funzioni
+//menu for function selection
 int menu();
 //verifica che il percorso indicato sia corretto
 int verifica(char [], char [], int); //0 per il caricamento e 1 per il salvataggio
@@ -66,7 +66,7 @@ int main(){
 	char s[200]={0}; //stringa per il perocorso
     char sel;
 
-    generaistruzioni();
+    writeInstruction();
     system("cls");
     sceltafoto(s);
 
@@ -75,35 +75,35 @@ int main(){
         if(sel==1){
             printf("---%d---", sel);
             if(levels(s)){
-                printf("\nSpiacente, si %c verificato un errore...\n", 138);
+                printf("\nSorry, an error occured...\n");
                 system("pause");
             }
         }
         else if(sel==2){
             printf("---%d---", sel);
             if(GaussianBlur(s)){
-                printf("\nSpiacente, si %c verificato un errore...\n", 138);
+                printf("\nSorry, an error occured...\n");
                 system("pause");
             }
         }
         else if(sel==3){
             printf("---%d---", sel);
             if(EdgeDetection(s)){
-                printf("\nSpiacente, si %c verificato un errore...\n", 138);
+                printf("\nSorry, an error occured...\n");
                 system("pause");
             }
         }
         else if(sel==4){
             printf("---%d---", sel);
             if(imagestretching(s)){
-                printf("\nSpiacente, si %c verificato un errore...\n", 138);
+                printf("\nSorry, an error occured...\n");
                 system("pause");
             }
         }
         else if(sel==5){
             printf("---%d---", sel);
             if(segmentation(s)){
-                printf("\nSpiacente, si %c verificato un errore...\n", 138);
+                printf("\nSorry, an error occured...\n");
                 system("pause");
             }
         }
@@ -121,7 +121,7 @@ int main(){
         else{
             system("cls");
             Sleep(500);
-            printf("\n\nGrazie! A presto!\n\n");
+            printf("\n\nThanks! See you soon!\n\n");
         }
     }while(sel!=9);
 
@@ -137,7 +137,7 @@ void sceltafoto(char s[]){
 
     char errore; //return delle funzioni per comunicare eventuali errori all'utente
 
-    printf("Ciao, indicami il percorso in cui si trova la foto\nOppure solo %cnomefoto.bmp%c se il file %c nella stessa cartella di questo programma\n", 34, 34, 138);
+    printf("Hi, tell me the path to the image\nOtherwise only %cnomefoto.bmp%c if the file is in the working directory\n", 34, 34);
     do{
     str_formatting(s);
     errore=verifica(s, s, LOAD); //passo 2 volte s in modo che la funzione sia utilizzabile anche per il SAVE
@@ -199,11 +199,11 @@ int checkbmp(char s[]){ //se carico un file che non ha nessun formato ma che è s
 
 void errori(char e){
     if(e==1){
-        printf("\n!!!Hai indicato un percorso errato o inesistente! Ricorda che il percorso deve terminare con nomefile.bmp\n");
+        printf("\n!!!You have inserted an unexistent or incorrect path! Remember that the path must end with filename.bmp\n");
     }else if(e==2){
-        printf("\n!!!Hai indicato un'immagine che non %c in formato .bmp, convertila e riprova!\n",138);
+        printf("\n!!!You have tried to load a non bmp image, convert it and try again!\n");
     }else{
-        printf("\n!!!L'immagine non %c a 8 bit, mi dispiace ma per il momento so leggere solo immagini a 8 bit...\n", 138);
+        printf("\n!!!The image it's not an 8-bit one, sorry but i can only process 8-bit images\n");
     }
 }
 
@@ -213,28 +213,28 @@ int menu(){
 
     Sleep(100);
     system("cls");
-    printf("\nPerfetto! Ora dimmi cosa vuoi fare con la tua immagine:\n\n\n");
-    printf("\t1. Calcolo e tracciamento dell'istogramma dell'immagine;\n\n");
+    printf("\nNice! Now tell me what you want to do with your image:\n\n\n");
+    printf("\t1. Histrogram visualization;\n\n");
     Sleep(150);
-    printf("\t2. Applicazione di un filtro Gaussiano con dimensioni e deviazione standard a scelta;\n\n");
+    printf("\t2. Gaussian filter application. Dimension and standard deviation can be choosed;\n\n");
     Sleep(150);
-    printf("\t3. Edge detection con l'operatore di Sobel;\n\n");
+    printf("\t3. Edge detection with Sobel operator;\n\n");
     Sleep(150);
-    printf("\t4. Stretching dell'immagine;\n\n");
+    printf("\t4. Image stretching;\n\n");
     Sleep(150);
-    printf("\t5. Clustering dell'immagine;\n\n");
+    printf("\t5. Image clustering;\n\n");
     Sleep(150);
-    printf("\t6. Voglio modificare un'altra immagine;\n\n");
+    printf("\t6. Change the image to modify;\n\n");
     Sleep(150);
-    printf("\t7. Voglio visualizzare l'immagine corrente;\n\n");
+    printf("\t7. Visualize the current image;\n\n");
     Sleep(150);
-    printf("\t8. Istruzioni;\n\n");
+    printf("\t8. Instructions;\n\n");
     Sleep(150);
-    printf("\t9. Per oggi ho finito! Chiudi l'applicazione!");
+    printf("\t9. I'm done! Close the app!");
     Sleep(150);
 
     do{
-        printf("\n\nIndica la tua scelta <1/2/3/4/5/6/7/8/9>: ");
+        printf("\n\nMake your choice <1/2/3/4/5/6/7/8/9>: ");
         scanf("%d", &s);
     }while(s<1 || s>9);
 
@@ -244,7 +244,7 @@ int menu(){
 void str_formatting(char s[]){
 
     unsigned char i=0;
-    printf("\nPercorso: ");
+    printf("\nFile path: ");
 
     do{
 		scanf("%c", &s[i]);
@@ -279,7 +279,7 @@ int levels(char s[]){
     loadIMG(s, image, size); //i pixel sono in image
 
 	do{
-       printf("\n\nIndica il numero di livelli tra 0 e 256 per il calcolo dell'istogramma dell'immagine: ");
+       printf("\n\nTell me the number of levels (0 - 256) for the histogram extraction: ");
        scanf("%f", &l);
 	}while(l<1 || l>256 || l-floor(l)!=0);
 
@@ -290,7 +290,7 @@ int levels(char s[]){
 	occ_max=*occ;
 
 	for(i=0; i<l; i++){
-        printf("\n%d%c livello ", i+1, 248);
+        printf("\n%d%c Level ", i+1, 248);
         if(l!=256)
             printf("(%.0f-%.0f): %d", i*GRAYSCALE/l,i*GRAYSCALE/l+GRAYSCALE/l-1, *(occ+i));
         else
@@ -302,7 +302,7 @@ int levels(char s[]){
 	}
 
 	if(sum != img.info.height*img.info.width){
-        printf("\nMancano %d pixel\n", img.info.height*img.info.width-sum);
+        printf("\n%d pixel are missing\n", img.info.height*img.info.width-sum);
         system("pause");
         return 1;
 	}
@@ -310,7 +310,7 @@ int levels(char s[]){
     generatehist(img, occ, occ_max, l, d);
 	free(occ);
 
-	printf("\n\nTrovi l'immagine rappresentante l'istogramma nel percorso che mi hai indicato prima!\n\n");
+	printf("\n\nYou can find the histogram in the path you told me before!\n\n");
 	ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
 
 	system("pause");
@@ -416,16 +416,16 @@ int GaussianBlur(char s[]){
     destinazione(s, d);
 
     do{
-        printf("Indica la dimensione (dispari) del kernel per la generazione del filtro Gausssiano: ");
+        printf("Tell me the dimension (odd) of the Gaussian kernel: ");
         scanf("%d", &dim);
     }while(dim%2==0 || dim < 2);
 
     do{
-        printf("Indica il valore della deviazione standard (std>0): ");
+        printf("Tell me the standard deviation of the filter you want (std>0): ");
         scanf("%f", &sigma);
     }while(sigma <= 0);
 
-    printf("Perfetto, genero un kernel %d%c%d con deviazione standard di %.5f\n\n", dim, 158, dim, sigma);
+    printf("Good, i'm generating a %d%c%d kernel with a std of %.5f\n\n", dim, 158, dim, sigma);
 
     g = (float*) calloc(dim*dim,sizeof(float));
     G(g, dim, sigma);
@@ -451,11 +451,10 @@ int GaussianBlur(char s[]){
     saveBMP(img, d, image);
     free(image);//!!!!!!!!!!!!!!!!!!!!!!!!
 
-    printf("\n\nTrovi l'immagine modificata nel percorso che mi hai indicato prima!\n\n");
+    printf("\n\nYou can find the modified image in the path you told me before!\n\n");
+	ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
 
-    ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
-
-    printf("\nVuoi utilizzare l'immagine modificata per le prossime modifiche? <y/n>: ");
+	printf("\nDo you want to use the modified image for next operations? <y/n>: ");
     do{
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
@@ -652,10 +651,10 @@ int EdgeDetection(char s[]){
 	saveBMP(img, d, image);
 	free(image);
 
-	printf("\n\nTrovi l'immagine modificata nel percorso che mi hai indicato prima!\n\n");
+	printf("\n\nYou can find the modified image in the path you told me before!\n\n");
 	ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
 
-	printf("\nVuoi utilizzare l'immagine modificata per le prossime modifiche? <y/n>: ");
+	printf("\nDo you want to use the modified image for next operations? <y/n>: ");
     do{
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
@@ -718,14 +717,14 @@ void threshold(unsigned char* img, int size){
     int i, thresh;
     char r;
 
-    printf("\n\nDesideri inserire il valore di threshold?");
+    printf("\n\nWould you like to insert the threshold value?");
     do{
         printf("\n\n<y/n>: ");
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
 
     if(r=='y'){
-        printf("\n\nInserisci il valore di threshold: ");
+        printf("\n\nInsert threshold value: ");
         scanf("%d", &thresh);
 
         for(i=0; i<size; i++){
@@ -759,10 +758,10 @@ int imagestretching(char s[]){
 	saveBMP(img, d, image);
 	free(image);
 
-	printf("\n\nTrovi l'immagine modificata nel percorso che mi hai indicato prima!\n\n");
+	printf("\n\nYou can find the modified image in the path you told me before!\n\n");
 	ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
 
-    printf("\nVuoi utilizzare l'immagine modificata per le prossime modifiche? <y/n>: ");
+	printf("\nDo you want to use the modified image for next operations? <y/n>: ");
     do{
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
@@ -786,20 +785,20 @@ void stretching(unsigned char* img, int h, int w){
     char done=0;
     int p;
 
-    printf("\n\nPreferisci procedere indicando i limiti inferiori e superiori tramite:\n\t1.Valori livello scala di grigio(0-255);\n\t2.Percentili\n\t3.Detenzione automatica");
+    printf("\n\nDo you rather proceed setting upper and lower limits via:\n\t1. Grayscale values (0-255);\n\t2. Percentiles\n\t3. Automatic detection");
     Sleep(500);
     do{
-        printf("\n\nIndica la tua scelta: ");
+        printf("\n\nYour choice: ");
         scanf("%d", &s);
     }while(s<1 || s>3);
 
     if(s==2){
-        printf("\n\nUna scelta comune dei percentili sono il 5%c e il 95%c.", 37, 37);
+        printf("\n\nA common percentiles choice is 5%c and 95%c.", 37, 37);
 
         do{
-            printf("\n\nIndicami il percentile inferiore: ");
+            printf("\n\nLower percentile: ");
             scanf("%f", &p_inf);
-            printf("\n\nIndicami il percentile superiore: ");
+            printf("\n\nUpper percentile: ");
             scanf("%f", &p_sup);
         }while(p_inf>p_sup || p_inf<0 || p_inf>99.99 || p_sup<0 || p_sup >99.99);
 
@@ -822,9 +821,9 @@ void stretching(unsigned char* img, int h, int w){
         free(occ);
     }else if(s==1){
          do{
-            printf("\n\nIndicami il valore inferiore: ");
+            printf("\n\nLower value: ");
             scanf("%d", &c);
-            printf("\n\nIndicami il valore superiore: ");
+            printf("\n\nUpper value: ");
             scanf("%d", &d);
         }while(c>d || c<0 || c>255 || d<0 || d>255);
     }else{
@@ -854,16 +853,16 @@ void automaticdetection(int* occ, int* c, int* d, int h, int w){
     char r;
     int j;
 
-    printf("\n\n\n\n\nDesideri scegliere il numero minimo di pixel appartenenti ad un livello affinch%c il livello non sia considerato rumore? ", 138);
+    printf("\n\n\n\n\nWould you like to chose the minimum amount of pixel belonging to a level in order to not be considered as noise? ");
     Sleep(150);
-    printf("\nRispondi no (n) per utilizzare i valori di default");
+    printf("\nAnswer no (n) to use default values");
     do{
         printf("\n\n<y/n>: ");
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
 
     if(r=='y'){
-        printf("\n\nQuale vuoi sia il numero minimo di pixel di un livello affinch%c non sia considerato rumore?", 138);
+        printf("\n\nWhat is the minimum amount of pixel to consider a level as noise?");
         do{
             printf("\n\nValore (0-%d): ", (h*w)/GRAYSCALE);
             scanf("\n%d", &noise);
@@ -907,10 +906,10 @@ int segmentation(char s[]){
     saveBMP(img, d, image);
 	free(image);
 
-	printf("\n\nTrovi l'immagine modificata nel percorso che mi hai indicato prima!\n\n");
+	printf("\n\nYou can find the modified image in the path you told me before!\n\n");
 	ShellExecute(NULL, NULL, d, NULL, NULL, SW_SHOWNORMAL);
 
-    printf("\nVuoi utilizzare l'immagine modificata per le prossime modifiche? <y/n>: ");
+	printf("\nDo you want to use the modified image for next operations? <y/n>: ");
     do{
         scanf("\n%c", &r);
     }while(r!='y' && r!='n');
@@ -932,7 +931,7 @@ void clustering(unsigned char* img, int h, int w){
     int* clust_val;
     unsigned char* k_bel; //cluster di appartenenza
 
-    printf("\nInserisci il numero di centroidi: ");
+    printf("\nChoose the number of centroids: ");
     scanf("%d", &clusters);
 
     k_bel = (unsigned char*) calloc(h*w, sizeof(unsigned char));
@@ -1004,28 +1003,26 @@ void newclustval(int* clust_val, unsigned char* k_bel, unsigned char* img, int c
     free(count);
 }
 
-/**FINE IMAGE-SEGMENTATION**/
+/**END IMAGE-SEGMENTATION**/
 
-void generaistruzioni(){
+void writeInstruction(){
 
     FILE* fp;
-    fp = fopen("READ_ME.txt", "w+");
+    fp = fopen("instructions.txt", "w+");
 
-    fprintf(fp, "Utilizzo:\n\n");
+    fprintf(fp, "Usage:\n\n");
 
-    fprintf(fp, "1. Viene richiesto il percorso in cui si trova l'immagine da analizzare e/o modificare\n");
-    fprintf(fp, "2. Viene richiesta quale operazione eseguire, se cambiare l'immagine da modificare (torna al\n");
-    fprintf(fp, "   punto 1) o se uscire dall'applicazione\n");
-    fprintf(fp, "3. Una volta scelta l'operazione da eseguire viene richiesto il percorso per il salvataggio\n");
-    fprintf(fp, "   dell'immagine modificata (o dell'istogramma)\n");
+    fprintf(fp, "1. The file path where the image is stored is requested\n");
+    fprintf(fp, "2. The action to perform is requested. You can change the image to modify (back to\n");
+    fprintf(fp, "   point 1) or you can exit the application\n");
+    fprintf(fp, "3. Once the action to perform is chosen, the path where you want to store the result is requested\n");
 
-    fprintf(fp, "\nInserimento del percorso:\n\n");
+    fprintf(fp, "\nP:\n\n");
 
-    fprintf(fp, "1. La cartella di destinazione deve esistere. Se non esiste non verrà creata\n");
-    fprintf(fp, "2. Il percorso deve includere il nome del file con il formato.\n");
-    fprintf(fp, "\te.g: C:%cUsers%cNomeUtente%cDesktop%cImmagini%cnomeimmagine.bmp\n", 92, 92, 92, 92, 92);
-    fprintf(fp, "3. Il software è in grado di analizzare ed operare solo su immagini in formato bitmap,\n");
-    fprintf(fp, "   a 8 bit e senza alcun tipo di compressione.");
+    fprintf(fp, "1. The path to the folder must already exist\n");
+    fprintf(fp, "2. Path file must include the file name with his extension (i.e. filename.bmp)\n");
+    fprintf(fp, "\t e.g: C:%cUsers%cUserName%cDesktop%cPictures%cfilename.bmp\n", 92, 92, 92, 92, 92);
+    fprintf(fp, "3. The application can load and save only 8 bit-bitmap-not compressed images\n");
 
 
 
