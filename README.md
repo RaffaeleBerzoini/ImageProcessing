@@ -14,7 +14,7 @@
 
 ## Use of the application
 
-As the .exe file starts you will find a READ_ME.txt file with the instrctions
+As the .exe file starts you will find a instructions.txt file with the instrctions
 
 
 
